@@ -1,4 +1,4 @@
-package basecfg
+package basecfg // import "toolman.org/base/basecfg"
 
 import (
 	"fmt"
