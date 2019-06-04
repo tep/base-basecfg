@@ -11,8 +11,8 @@ import (
 	"github.com/spf13/pflag"
 	"github.com/spf13/viper"
 
-	"toolman.org/base/log"
-	"toolman.org/base/toolman"
+	"toolman.org/base/log/v2"
+	"toolman.org/base/toolman/v2"
 )
 
 type Config struct {
