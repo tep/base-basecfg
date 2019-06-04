@@ -16,6 +16,13 @@ type Feature interface {
 // the second argument to `Register()`.
 type FeatureFunc func() Feature
 
+// TODO(tep): Allow caller to register an instantiated Feature object...
+//            in addition to the niladic FeatureFunc.
+//
+//            Consider changing `Register` to accept a previously created
+//            `Feature` and adding `RegisterFunc` that takes a `FeatureFunc`.
+//
+
 // Register will register a new Feature with the global, in-memory Feature
 // registry -- thus making it part of the current application's configuration
 // set.

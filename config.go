@@ -147,6 +147,7 @@ func (c *Config) Load() error {
 				delete(c.oomap, fd.oneof)
 				return multipleOneOfError(fd.oneof, oo, fd.label)
 			}
+			log.Infof("Using %q as %q", fd.label, fd.oneof)
 			c.oomap[fd.oneof] = fd.label
 		}
 
@@ -158,8 +159,12 @@ func (c *Config) Load() error {
 			return err
 		}
 
-		if err := fd.Validate(); err != nil {
-			return err
+		// We skip the call to Validate for oneof Features that are not currently
+		// configured.
+		if fd.oneof == "" || c.oomap[fd.oneof] != "" {
+			if err := fd.Validate(); err != nil {
+				return err
+			}
 		}
 	}
 
@@ -275,6 +280,18 @@ func (c *Config) unmarshal(fd *featureDefn) error {
 
 func (c *Config) Feature(l Label) Feature {
 	return c.fmap[l]
+}
+
+func (c *Config) Features() []Label {
+	var i int
+	list := make([]Label, len(c.fmap))
+
+	for fl := range c.fmap {
+		list[i] = fl
+		i++
+	}
+
+	return list
 }
 
 // BinDir is a wrapper around filepath.Join returning a file path constructed
