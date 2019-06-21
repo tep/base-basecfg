@@ -21,6 +21,7 @@
 package basecfg // import "toolman.org/base/basecfg"
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -124,7 +125,7 @@ func (c *Config) Flags() *toolman.InitOption {
 	return toolman.FlagSet(c.flags)
 }
 
-func (c *Config) Load() error {
+func (c *Config) Load(ctx context.Context) error {
 	if c.file != "" {
 		log.Infof("Ignoring config path in lieu of: %s", c.file)
 		c.SetConfigFile(c.file)
@@ -182,7 +183,7 @@ func (c *Config) Load() error {
 		// We skip the call to Validate for oneof Features that are not currently
 		// configured.
 		if fd.oneof == "" || c.oomap[fd.oneof] != "" {
-			if err := fd.Validate(); err != nil {
+			if err := fd.Validate(ctx); err != nil {
 				return err
 			}
 		}

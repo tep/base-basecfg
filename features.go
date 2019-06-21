@@ -21,6 +21,7 @@
 package basecfg
 
 import (
+	"context"
 	"github.com/spf13/pflag"
 )
 
@@ -29,7 +30,7 @@ import (
 type Feature interface {
 	FlagSet(*pflag.FlagSet)
 	// Defaults() map[string]interface{}
-	Validate() error
+	Validate(context.Context) error
 }
 
 // FeatureFunc is a function that returns a newly created Feature and should be
