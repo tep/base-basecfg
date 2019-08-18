@@ -20,7 +20,11 @@
 
 package basecfg
 
-import "github.com/spf13/pflag"
+import (
+	"context"
+
+	"github.com/spf13/pflag"
+)
 
 func useTestRegistry() func() {
 	var testRegistry featureRegistry
@@ -43,7 +47,7 @@ func (tf *testFeature) FlagSet(fs *pflag.FlagSet) {
 	tf.fs = fs
 }
 
-func (tf *testFeature) Validate() error { return nil }
+func (tf *testFeature) Validate(context.Context) error { return nil }
 
 func mkTestFeature() *testFeature {
 	return &testFeature{

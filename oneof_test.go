@@ -22,6 +22,7 @@ package basecfg
 
 import (
 	"bytes"
+	"context"
 	"reflect"
 	"testing"
 
@@ -63,7 +64,7 @@ func (tc *ooTestcase) test(t *testing.T) {
 
 	c := New("oneoftest", FromReader("json", buf))
 
-	if err := c.Load(); !reflect.DeepEqual(err, tc.err) {
+	if err := c.Load(context.Background()); !reflect.DeepEqual(err, tc.err) {
 		t.Fatalf("c.Load() == (%v); Wanted (%v)", err, tc.err)
 	}
 
@@ -74,8 +75,8 @@ func (tc *ooTestcase) test(t *testing.T) {
 
 type oneofFeature struct{}
 
-func (f *oneofFeature) FlagSet(*pflag.FlagSet) {}
-func (f *oneofFeature) Validate() error        { return nil }
+func (f *oneofFeature) FlagSet(*pflag.FlagSet)         {}
+func (f *oneofFeature) Validate(context.Context) error { return nil }
 
 type oneofFeatureA struct {
 	Option string `cfg:"option"`

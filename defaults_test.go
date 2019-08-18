@@ -21,6 +21,7 @@
 package basecfg
 
 import (
+	"context"
 	"reflect"
 	"testing"
 
@@ -54,7 +55,7 @@ func TestFlagDefaults(t *testing.T) {
 
 	c := New("test", Base(tf), IgnoreConfigFileErrors)
 
-	if err := c.Load(); err != nil {
+	if err := c.Load(context.Background()); err != nil {
 		t.Fatal(err)
 	}
 
@@ -80,7 +81,7 @@ func TestFeatureFlagDefaults(t *testing.T) {
 
 	c := New("test", IgnoreConfigFileErrors)
 
-	if err := c.Load(); err != nil {
+	if err := c.Load(context.Background()); err != nil {
 		t.Fatal(err)
 	}
 

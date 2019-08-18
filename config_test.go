@@ -21,6 +21,7 @@
 package basecfg
 
 import (
+	"context"
 	"os"
 	"testing"
 
@@ -40,7 +41,7 @@ func (bc *baseConfig) FlagSet(fs *pflag.FlagSet) {
 	fs.Uint32Var(&bc.Port, "port", bc.Port, "The port")
 }
 
-func (bc *baseConfig) Validate() error {
+func (bc *baseConfig) Validate(context.Context) error {
 	return nil
 }
 
@@ -60,7 +61,7 @@ func TestConfigBase(t *testing.T) {
 
 	// bc.Config.flags.Parse([]string{"--port", "3456"})
 
-	if err := bc.Load(); err != nil {
+	if err := bc.Load(context.Background()); err != nil {
 		t.Errorf("bc.Load() == %v; Wanted %v", err, nil)
 	}
 
@@ -73,7 +74,7 @@ func TestIgnore(t *testing.T) {
 
 	pflag.Parse()
 
-	if err := bc.Load(); err != nil {
+	if err := bc.Load(context.Background()); err != nil {
 		t.Errorf("bc.Load() == %v; Wanted %v", err, nil)
 	}
 }
